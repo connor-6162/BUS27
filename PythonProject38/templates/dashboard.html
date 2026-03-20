@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Dashboard</h2>
+<p>Welcome, <b>{{ user.username }}</b></p>
+
+<div class="filters">
+  <a class="{% if show=='all' %}active{% endif %}" href="{{ url_for('main.dashboard', show='all') }}">All</a>
+  <a class="{% if show=='pending' %}active{% endif %}" href="{{ url_for('main.dashboard', show='pending') }}">Pending</a>
+  <a class="{% if show=='done' %}active{% endif %}" href="{{ url_for('main.dashboard', show='done') }}">Done</a>
+</div>
+
+<hr>
+
+<h3>Add task</h3>
+<form method="POST">
+  {{ form.hidden_tag() }}
+  <div class="field">
+    {{ form.name.label }}<br>
+    {{ form.name(placeholder="e.g., CS Coursework") }}
+  </div>
+  <div class="field">
+    {{ form.deadline.label }}<br>
+    {{ form.deadline() }}
+  </div>
+  {{ form.submit(class_="btn") }}
+</form>
+
+<hr>
+
+<h3>Tasks</h3>
+{% if tasks %}
+  <div class="task-list">
+    {% for task in tasks %}
+      <div class="task {% if task.status == 'Done' %}done{% elif task.is_urgent() %}urgent{% endif %}">
+        <div class="task-main">
+          <div class="task-title">{{ task.name }}</div>
+          <div class="task-meta">
+            Deadline (UTC): {{ task.deadline }} | Status: {{ task.status }}
+          </div>
+        </div>
+
+        <div class="task-actions">
+          {% if task.status != "Done" %}
+          <form method="POST" action="{{ url_for('main.complete_task', task_id=task.id) }}">
+            <button class="btn" type="submit">Mark Done</button>
+          </form>
+          {% endif %}
+          <form method="POST" action="{{ url_for('main.delete_task', task_id=task.id) }}">
+            <button class="btn danger" type="submit">Delete</button>
+          </form>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>No tasks yet.</p>
+{% endif %}
+{% endblock %}
