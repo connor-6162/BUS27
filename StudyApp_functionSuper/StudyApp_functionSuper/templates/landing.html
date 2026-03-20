@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="landing-container" style="text-align: center; padding: 80px 20px;">
+  <h1 style="font-size: 36px; margin-bottom: 10px;">Welcome to Uni-Focus</h1>
+  <p style="font-size: 16px; color: #666; margin-bottom: 50px;">
+    A centralized dashboard for students to track academic tasks
+  </p>
+
+  <h2 style="font-size: 20px; margin-bottom: 30px;">Select Your Profile to Login</h2>
+  <div class="profile-buttons" style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+    <!-- Li Hua Profile -->
+    <a href="{{ url_for('main.simulate_login', profile_id=1) }}"
+       class="profile-btn"
+       style="display: inline-block; padding: 20px 40px; background: #2563eb; color: white; text-decoration: none; border-radius: 10px; font-size: 18px; font-weight: bold; min-width: 200px;">
+      Li Hua<br>
+      <span style="font-size: 12px; font-weight: normal;">(International Student)</span>
+    </a>
+
+    <!-- Lucy Profile -->
+    <a href="{{ url_for('main.simulate_login', profile_id=2) }}"
+       class="profile-btn"
+       style="display: inline-block; padding: 20px 40px; background: #16a34a; color: white; text-decoration: none; border-radius: 10px; font-size: 18px; font-weight: bold; min-width: 200px;">
+      Lucy<br>
+      <span style="font-size: 12px; font-weight: normal;">(Part-time Student)</span>
+    </a>
+  </div>
+
+  <div style="margin-top: 60px; font-size: 14px; color: #888;">
+    Or <a href="{{ url_for('main.login') }}" style="color: #2563eb; text-decoration: underline;">Login</a> /
+    <a href="{{ url_for('main.register') }}" style="color: #2563eb; text-decoration: underline;">Register</a> with your own account
+  </div>
+</div>
+{% endblock %}
